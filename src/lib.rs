@@ -624,6 +624,13 @@ impl ConsoleEngine {
                             // Use style::Attribute::Reset instead, process italics and underline
                             // afterwards to avoid resetting those attributes.
                             queue!(self.stdout, style::SetAttribute(style::Attribute::Reset)).unwrap();
+                            // Make sure to re-enable italics and underline after they're reset
+                            if pixel.style.italic {
+                                queue!(self.stdout, style::SetAttribute(style::Attribute::Italic)).unwrap();
+                            }
+                            if pixel.style.underlined {
+                                queue!(self.stdout, style::SetAttribute(style::Attribute::Underlined)).unwrap();
+                            }
                         }
                     }
                     if current_italic != pixel.style.italic || first {
