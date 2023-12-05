@@ -578,6 +578,9 @@ impl ConsoleEngine {
         queue!(self.stdout, crossterm::cursor::MoveTo(0, 0)).unwrap();
         let mut first = true;
         let mut current_colors: (Color, Color) = (Color::Reset, Color::Reset);
+        let mut current_bold: bool = false;
+        let mut current_italic: bool = false;
+        let mut current_underline: bool = false;
         let mut moving = false;
         self.screen_last_frame.check_empty(); // refresh internal "empty" value of the last_frame screen
         let mut skip_next = false;
@@ -607,22 +610,6 @@ impl ConsoleEngine {
                         queue!(self.stdout, crossterm::cursor::MoveTo(x as u16, y as u16)).unwrap();
                         moving = false;
                     }
-                    // Set attributes
-                    if pixel.style.bold { 
-                        queue!(self.stdout, style::SetAttribute(style::Attribute::Bold)).unwrap(); 
-                    } else {
-                        queue!(self.stdout, style::SetAttribute(style::Attribute::NoBold)).unwrap();
-                    }
-                    if pixel.style.italic { 
-                        queue!(self.stdout, style::SetAttribute(style::Attribute::Italic)).unwrap(); 
-                    } else {
-                        queue!(self.stdout, style::SetAttribute(style::Attribute::NoItalic)).unwrap();
-                    }
-                    if pixel.style.underlined { 
-                        queue!(self.stdout, style::SetAttribute(style::Attribute::Underlined)).unwrap(); 
-                    } else {
-                        queue!(self.stdout, style::SetAttribute(style::Attribute::NoUnderline)).unwrap();
-                    }
                     // we check if the last color is the same as the current one.
                     // if the color is the same, only print the character
                     // the less we write on the output the faster we'll get
@@ -634,12 +621,38 @@ impl ConsoleEngine {
                             self.stdout,
                             style::SetForegroundColor(pixel.fg),
                             style::SetBackgroundColor(pixel.bg),
-                            style::Print(pixel.chr),
                         ).unwrap();
-                        first = false;
-                    } else {
-                        queue!(self.stdout, style::Print(pixel.chr)).unwrap();
                     }
+                    // do the same check for style attributes
+                    if current_bold != pixel.style.bold || first {
+                        current_bold = pixel.style.bold;
+                        if pixel.style.bold {
+                            queue!(self.stdout, style::SetAttribute(style::Attribute::Bold)).unwrap(); 
+                        } else {
+                            // style::Attribute::NoBold is unreliable across terminals
+                            // Use style::Attribute::Reset instead, process italics and underline
+                            // afterwards to avoid resetting those attributes.
+                            queue!(self.stdout, style::SetAttribute(style::Attribute::Reset)).unwrap();
+                        }
+                    }
+                    if current_italic != pixel.style.italic || first {
+                        current_italic = pixel.style.italic;
+                        if pixel.style.italic {
+                            queue!(self.stdout, style::SetAttribute(style::Attribute::Italic)).unwrap(); 
+                        } else {
+                            queue!(self.stdout, style::SetAttribute(style::Attribute::NoItalic)).unwrap();
+                        }
+                    }
+                    if current_underline != pixel.style.underlined || first {
+                        current_underline = pixel.style.underlined;
+                        if pixel.style.underlined {
+                            queue!(self.stdout, style::SetAttribute(style::Attribute::Underlined)).unwrap(); 
+                        } else {
+                            queue!(self.stdout, style::SetAttribute(style::Attribute::NoUnderline)).unwrap();
+                        }
+                    }
+                    first = false;
+                    queue!(self.stdout, style::Print(pixel.chr)).unwrap();
                 } else {
                     moving = true
                 }
