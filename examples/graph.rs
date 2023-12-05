@@ -86,7 +86,7 @@ fn main() {
                 2,
                 (value_position as f32 * step) as i32,
                 engine.get_height() as i32 - 1,
-                pixel::pxl(' ', Some(Color::Reset), Some(Color::Blue), None, None, None),
+                pixel::pxl(' ', None, Some(Color::Blue), None, None, None),
             );
         }
         // draw the graph

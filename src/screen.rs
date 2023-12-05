@@ -876,19 +876,24 @@ impl Screen {
 
             if pixel.style.bold { 
                 queue!(output, style::SetAttribute(style::Attribute::Bold)).unwrap(); 
+            } else {
+                queue!(output, style::SetAttribute(style::Attribute::NoBold)).unwrap();
             }
             if pixel.style.italic { 
                 queue!(output, style::SetAttribute(style::Attribute::Italic)).unwrap(); 
+            } else {
+                queue!(output, style::SetAttribute(style::Attribute::NoItalic)).unwrap();
             }
             if pixel.style.underlined { 
                 queue!(output, style::SetAttribute(style::Attribute::Underlined)).unwrap(); 
+            } else {
+                queue!(output, style::SetAttribute(style::Attribute::NoUnderline)).unwrap();
             }
             queue!(
                 output,
                 style::SetForegroundColor(pixel.fg),
                 style::SetBackgroundColor(pixel.bg),
                 style::Print(pixel.chr),
-                style::SetAttribute(style::Attribute::Reset)
             ).unwrap();
 
             if i != self.width * self.height - 1 && i % self.width == self.width - 1 {

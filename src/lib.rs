@@ -608,15 +608,20 @@ impl ConsoleEngine {
                         moving = false;
                     }
                     // Set attributes
-                    queue!(self.stdout, style::SetAttribute(style::Attribute::Reset)).unwrap(); 
                     if pixel.style.bold { 
                         queue!(self.stdout, style::SetAttribute(style::Attribute::Bold)).unwrap(); 
+                    } else {
+                        queue!(self.stdout, style::SetAttribute(style::Attribute::NoBold)).unwrap();
                     }
                     if pixel.style.italic { 
                         queue!(self.stdout, style::SetAttribute(style::Attribute::Italic)).unwrap(); 
+                    } else {
+                        queue!(self.stdout, style::SetAttribute(style::Attribute::NoItalic)).unwrap();
                     }
                     if pixel.style.underlined { 
                         queue!(self.stdout, style::SetAttribute(style::Attribute::Underlined)).unwrap(); 
+                    } else {
+                        queue!(self.stdout, style::SetAttribute(style::Attribute::NoUnderline)).unwrap();
                     }
                     // we check if the last color is the same as the current one.
                     // if the color is the same, only print the character
@@ -635,11 +640,6 @@ impl ConsoleEngine {
                     } else {
                         queue!(self.stdout, style::Print(pixel.chr)).unwrap();
                     }
-                    // Reset attributes
-                    queue!(
-                        self.stdout,
-                        style::SetAttribute(style::Attribute::Reset),
-                    ).unwrap();
                 } else {
                     moving = true
                 }
