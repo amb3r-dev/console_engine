@@ -610,20 +610,11 @@ impl ConsoleEngine {
                         queue!(self.stdout, crossterm::cursor::MoveTo(x as u16, y as u16)).unwrap();
                         moving = false;
                     }
-                    // we check if the last color is the same as the current one.
-                    // if the color is the same, only print the character
+                    // we check if the last pixel is the same as the current one.
+                    // if the color/attribute is the same, only print the character
                     // the less we write on the output the faster we'll get
                     // and additional characters for colors we already have set is
                     // time consuming
-                    if current_colors != pixel.get_colors() || first {
-                        current_colors = pixel.get_colors();
-                        queue!(
-                            self.stdout,
-                            style::SetForegroundColor(pixel.fg),
-                            style::SetBackgroundColor(pixel.bg),
-                        ).unwrap();
-                    }
-                    // do the same check for style attributes
                     if current_bold != pixel.style.bold || first {
                         current_bold = pixel.style.bold;
                         if pixel.style.bold {
@@ -650,6 +641,14 @@ impl ConsoleEngine {
                         } else {
                             queue!(self.stdout, style::SetAttribute(style::Attribute::NoUnderline)).unwrap();
                         }
+                    }
+                    if current_colors != pixel.get_colors() || first {
+                        current_colors = pixel.get_colors();
+                        queue!(
+                            self.stdout,
+                            style::SetForegroundColor(pixel.fg),
+                            style::SetBackgroundColor(pixel.bg),
+                        ).unwrap();
                     }
                     first = false;
                     queue!(self.stdout, style::Print(pixel.chr)).unwrap();
