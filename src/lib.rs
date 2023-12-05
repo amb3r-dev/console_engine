@@ -607,6 +607,17 @@ impl ConsoleEngine {
                         queue!(self.stdout, crossterm::cursor::MoveTo(x as u16, y as u16)).unwrap();
                         moving = false;
                     }
+                    // Set attributes
+                    queue!(self.stdout, style::SetAttribute(style::Attribute::Reset)).unwrap(); 
+                    if pixel.style.bold { 
+                        queue!(self.stdout, style::SetAttribute(style::Attribute::Bold)).unwrap(); 
+                    }
+                    if pixel.style.italic { 
+                        queue!(self.stdout, style::SetAttribute(style::Attribute::Italic)).unwrap(); 
+                    }
+                    if pixel.style.underlined { 
+                        queue!(self.stdout, style::SetAttribute(style::Attribute::Underlined)).unwrap(); 
+                    }
                     // we check if the last color is the same as the current one.
                     // if the color is the same, only print the character
                     // the less we write on the output the faster we'll get
@@ -618,13 +629,17 @@ impl ConsoleEngine {
                             self.stdout,
                             style::SetForegroundColor(pixel.fg),
                             style::SetBackgroundColor(pixel.bg),
-                            style::Print(pixel.chr)
-                        )
-                        .unwrap();
+                            style::Print(pixel.chr),
+                        ).unwrap();
                         first = false;
                     } else {
                         queue!(self.stdout, style::Print(pixel.chr)).unwrap();
                     }
+                    // Reset attributes
+                    queue!(
+                        self.stdout,
+                        style::SetAttribute(style::Attribute::Reset),
+                    ).unwrap();
                 } else {
                     moving = true
                 }

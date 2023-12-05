@@ -292,10 +292,13 @@ impl FormField for Form {
         if self.screen.get_height() != total_height {
             self.screen.resize(self.screen.get_width(), total_height);
         }
-        self.screen.fill(pixel::pxl_fbg(
+        self.screen.fill(pixel::pxl(
             ' ',
-            self.options.style.fg,
-            self.options.style.bg,
+            Some( self.options.style.fg ),
+            Some( self.options.style.bg ),
+            None,
+            None,
+            None
         ));
         let padding = self.options.style.border.is_some() as i32;
 
@@ -333,7 +336,7 @@ impl FormField for Form {
             self.scroll_index as i32,
             self.get_width() as i32 - 1,
             self.scroll_index as i32 + self.get_height() as i32 - 1,
-            pixel::pxl(' '),
+            pixel::pxl(' ', None, None, None, None, None),
         );
         if let Some(border) = self.options.style.border {
             // Display the border
@@ -359,23 +362,23 @@ impl FormField for Form {
                     self.get_width() as i32 - 1,
                     1,
                     self.get_height() as i32 - 2,
-                    pixel::pxl_fbg('|', self.options.style.fg, self.options.style.bg),
+                    pixel::pxl('|', Some( self.options.style.fg ), Some( self.options.style.bg ), None, None, None),
                 );
                 self.viewport.set_pxl(
                     self.get_width() as i32 - 1,
                     1,
-                    pixel::pxl_fbg('↑', self.options.style.fg, self.options.style.bg),
+                    pixel::pxl('↑', Some( self.options.style.fg ), Some( self.options.style.bg ), None, None, None),
                 );
                 self.viewport.set_pxl(
                     self.get_width() as i32 - 1,
                     self.get_height() as i32 - 2,
-                    pixel::pxl_fbg('↓', self.options.style.fg, self.options.style.bg),
+                    pixel::pxl('↓', Some( self.options.style.fg ), Some( self.options.style.bg ), None, None, None),
                 );
                 self.viewport.set_pxl(
                     self.get_width() as i32 - 1,
                     2 + ((self.scroll_index as f32 / max_scroll as f32)
                         * (self.get_height() as f32 - 5f32)) as i32,
-                    pixel::pxl_fbg('█', self.options.style.fg, self.options.style.bg),
+                    pixel::pxl('█', Some( self.options.style.fg ), Some( self.options.style.bg ), None, None, None),
                 );
             }
         }

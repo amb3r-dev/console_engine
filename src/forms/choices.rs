@@ -146,10 +146,13 @@ impl FormField for Radio {
     fn draw(&mut self, _tick: usize) -> &Screen {
         if self.dirty {
             self.dirty = false;
-            self.screen.fill(pixel::pxl_fbg(
+            self.screen.fill(pixel::pxl(
                 ' ',
-                self.options.style.fg,
-                self.options.style.bg,
+                Some(self.options.style.fg),
+                Some(self.options.style.bg),
+                None,
+                None,
+                None,
             ));
             for (id, entry) in self.list.iter().enumerate() {
                 let (fg, bg) = if self.active && self.cursor_pos == id {
@@ -321,10 +324,13 @@ impl FormField for Checkbox {
 
     fn draw(&mut self, _tick: usize) -> &Screen {
         if self.dirty {
-            self.screen.fill(pixel::pxl_fbg(
+            self.screen.fill(pixel::pxl(
                 ' ',
-                self.options.style.fg,
-                self.options.style.bg,
+                Some(self.options.style.fg),
+                Some(self.options.style.bg),
+                None, 
+                None, 
+                None,
             ));
             self.dirty = false;
             for (id, entry) in self.list.iter().enumerate() {

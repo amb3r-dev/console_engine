@@ -29,7 +29,7 @@ fn draw_graph(engine: &mut console_engine::ConsoleEngine, values: [u8; MAX_VALUE
             2 + ceiling - last_position,
             ((1 + i) as f32 * step) as i32,
             2 + ceiling - position,
-            pixel::pxl('*'),
+            pixel::pxl_plain('*'),
         );
 
         // keep the position for the next iteration
@@ -72,13 +72,13 @@ fn main() {
             0,
             format!("Average : {}", (sum / value_position as u32) as f32).as_str(),
         );
-        engine.set_pxl((engine.get_width() as i32 / 2) - 1, 0, pixel::pxl('#'));
+        engine.set_pxl((engine.get_width() as i32 / 2) - 1, 0, pixel::pxl_plain('#'));
         engine.print(
             (engine.get_width() as i32 / 2) + 1,
             0,
             format!("Sum : {}", sum).as_str(),
         );
-        engine.line(0, 1, engine.get_width() as i32 - 1, 1, pixel::pxl('#'));
+        engine.line(0, 1, engine.get_width() as i32 - 1, 1, pixel::pxl_plain('#'));
         // Draw a line at the position of the last value written
         if value_position < MAX_VALUES {
             engine.line(
@@ -86,7 +86,7 @@ fn main() {
                 2,
                 (value_position as f32 * step) as i32,
                 engine.get_height() as i32 - 1,
-                pixel::pxl_bg(' ', Color::Blue),
+                pixel::pxl(' ', Some(Color::Reset), Some(Color::Blue), None, None, None),
             );
         }
         // draw the graph

@@ -1,9 +1,10 @@
 //! Standalone screens
 
+use std::io::Write;
 use crate::rect_style::BorderStyle;
 
 use super::crossterm::style::Color;
-use super::crossterm::{execute, style};
+use super::crossterm::{queue, style};
 use super::pixel;
 use super::pixel::Pixel;
 
@@ -45,13 +46,13 @@ pub struct Screen {
 impl Screen {
     /// Creates a new Screen object with the provided width and height.
     pub fn new(width: u32, height: u32) -> Screen {
-        Self::new_fill(width, height, pixel::pxl(' '))
+        Self::new_fill(width, height, pixel::pxl_plain(' '))
     }
 
     /// Creates a new empty Screen object with the provided widht and height
     /// Makes sure to [`clear`](#method.clear) or [`fill`](#method.fill) it before drawing anything
     pub fn new_empty(width: u32, height: u32) -> Screen {
-        let mut scr = Self::new_fill(width, height, pixel::pxl('\u{0}'));
+        let mut scr = Self::new_fill(width, height, pixel::pxl_plain('\u{0}'));
         scr.empty = true;
         scr
     }
@@ -84,7 +85,7 @@ impl Screen {
         assert!(string.chars().count() == (width*height) as usize, "The String must have the length corresponding to width*height (={}) but the given String has a length of {}.", width*height, string.chars().count());
         let vec: Vec<Pixel> = string
             .chars()
-            .map(|chr| pixel::pxl_fbg(chr, fg, bg))
+            .map(|chr| pixel::pxl(chr, Some(fg), Some(bg), None, None, None))
             .collect();
         Screen::from_vec(vec, width, height)
     }
@@ -100,7 +101,7 @@ impl Screen {
 
     /// Reset the screen to a blank state
     pub fn clear(&mut self) {
-        self.fill(pixel::pxl(' '));
+        self.fill(pixel::pxl_plain(' '));
     }
 
     /// Fill the entire screen to the given pixel
@@ -203,7 +204,7 @@ impl Screen {
                     // write on the screen until the row changes,
                     // skip the rest until a \n character is found
                     if origin_row == pos / self.get_width() as usize {
-                        self.screen[pos] = pixel::pxl_fbg(chr, fg, bg);
+                        self.screen[pos] = pixel::pxl(chr, Some(fg), Some(bg), None, None, None);
                         pos += 1;
                     }
                 } else {
@@ -777,7 +778,7 @@ impl Screen {
     /// ```
     pub fn resize(&mut self, new_width: u32, new_height: u32) {
         // create new screens Vec
-        let mut new_screen = vec![pixel::pxl(' '); (new_width * new_height) as usize];
+        let mut new_screen = vec![pixel::pxl_plain(' '); (new_width * new_height) as usize];
         // transfer old screens into new screens
         for j in 0..std::cmp::min(self.height, new_height) {
             for i in 0..std::cmp::min(self.width, new_width) {
@@ -856,7 +857,7 @@ impl Screen {
     /// Uses stdout as target
     ///
     /// You should not use this function while a ConsoleEngine is running.
-    /// You may want to use ConsoleEngine's `print_screen`, `print_screen_alpha` or `set_screen` instead
+    /// You may want to use ConsoleEngine's `print_screen`, `print_screen_alpha` or `set_spreen` instead
     pub fn draw(&self) {
         let mut output = std::io::stdout();
         crossterm::terminal::enable_raw_mode().unwrap();
@@ -872,16 +873,28 @@ impl Screen {
                     skip_next = true;
                 }
             }
-            execute!(
+
+            if pixel.style.bold { 
+                queue!(output, style::SetAttribute(style::Attribute::Bold)).unwrap(); 
+            }
+            if pixel.style.italic { 
+                queue!(output, style::SetAttribute(style::Attribute::Italic)).unwrap(); 
+            }
+            if pixel.style.underlined { 
+                queue!(output, style::SetAttribute(style::Attribute::Underlined)).unwrap(); 
+            }
+            queue!(
                 output,
                 style::SetForegroundColor(pixel.fg),
                 style::SetBackgroundColor(pixel.bg),
-                style::Print(pixel.chr)
-            )
-            .unwrap();
+                style::Print(pixel.chr),
+                style::SetAttribute(style::Attribute::Reset)
+            ).unwrap();
+
             if i != self.width * self.height - 1 && i % self.width == self.width - 1 {
-                execute!(output, style::Print("\r\n")).unwrap();
+                queue!(output, style::Print("\r\n")).unwrap();
             }
+            output.flush().unwrap();
         }
         crossterm::terminal::disable_raw_mode().unwrap();
     }

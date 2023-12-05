@@ -37,7 +37,7 @@ fn main() {
                         coords[0].1,
                         coords[1].0,
                         coords[1].1,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                 } else {
                     engine.rect(
@@ -45,7 +45,7 @@ fn main() {
                         coords[0].1,
                         coords[1].0,
                         coords[1].1,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                 }
                 engine.print(0, 1, "Position: [2] [4] [6] [8] ; Change point: [5]   ");
@@ -56,14 +56,14 @@ fn main() {
                         coords[0].0,
                         coords[0].1,
                         coords[1].0 as u32,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                 } else {
                     engine.circle(
                         coords[0].0,
                         coords[0].1,
                         coords[1].0 as u32,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                 }
                 engine.print(0, 1, "Range: [4] [6] ; Range <-> Point : [5]   ");
@@ -77,7 +77,7 @@ fn main() {
                         coords[1].1,
                         coords[2].0,
                         coords[2].1,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                 } else {
                     engine.triangle(
@@ -87,7 +87,7 @@ fn main() {
                         coords[1].1,
                         coords[2].0,
                         coords[2].1,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                 }
                 engine.print(0, 1, "Position: [2] [4] [6] [8] ; Change point: [5]   ");
@@ -101,7 +101,7 @@ fn main() {
                         coords[1].1,
                         coords[2].0,
                         coords[2].1,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                     engine.fill_triangle(
                         coords[1].0,
@@ -110,7 +110,7 @@ fn main() {
                         coords[2].1,
                         coords[3].0,
                         coords[3].1,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                 } else {
                     engine.triangle(
@@ -120,7 +120,7 @@ fn main() {
                         coords[1].1,
                         coords[2].0,
                         coords[2].1,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                     engine.triangle(
                         coords[1].0,
@@ -129,7 +129,7 @@ fn main() {
                         coords[2].1,
                         coords[3].0,
                         coords[3].1,
-                        pixel::pxl('#'),
+                        pixel::pxl_plain('#'),
                     );
                 }
                 engine.print(0, 1, "Position: [2] [4] [6] [8] ; Change point: [5]   ");
@@ -145,12 +145,12 @@ fn main() {
         // display the configured coordinates and highlight the current one
         if engine.frame_count % 4 >= 2 {
             for coord in coords.iter() {
-                engine.set_pxl(coord.0, coord.1, pixel::pxl_fg('#', Color::Cyan));
+                engine.set_pxl(coord.0, coord.1, pixel::pxl('#', Some(Color::Cyan), None, None, None, None));
             }
             engine.set_pxl(
                 coords[selection].0,
                 coords[selection].1,
-                pixel::pxl_fg('#', Color::Yellow),
+                pixel::pxl('#', Some(Color::Yellow), None, None, None, None),
             );
         }
 

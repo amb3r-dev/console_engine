@@ -189,21 +189,21 @@ impl Snake {
             engine.set_pxl(
                 self.apple_x as i32,
                 self.apple_y as i32,
-                pixel::pxl_fg('O', Color::Red),
+                pixel::pxl('O', Some(Color::Red), None, None, None, None),
             );
             // draw snake's body
             for segment in self.body.iter() {
                 engine.set_pxl(
                     segment.0 as i32,
                     segment.1 as i32,
-                    pixel::pxl_fg('█', Color::Green),
+                    pixel::pxl('█', Some(Color::Green), None, None, None, None),
                 );
             }
             // don't forget snake's head !
             engine.set_pxl(
                 self.pos_x as i32,
                 self.pos_y as i32,
-                pixel::pxl_fg('█', Color::DarkGreen),
+                pixel::pxl('█', Some(Color::DarkGreen), None, None, None, None),
             )
         } else {
             // blink a message, inviting the player to press space

@@ -416,14 +416,14 @@ fn main() {
         0,
         game_w + 1,
         game_scr.get_height() as i32,
-        pixel::pxl_fg('█', Color::Grey),
+        pixel::pxl('█', Some(Color::Grey), None, None, None, None),
     ); // walls
     engine.rect(
         game_w + 1,
         0,
         engine.get_width() as i32 - 1,
         2,
-        pixel::pxl_fg('█', Color::Grey),
+        pixel::pxl('█', Some(Color::Grey), None, None, None, None),
     ); // score's border
     engine.print_fbg(game_w + 3, 0, "Score:", Color::Black, Color::Grey);
     engine.rect(
@@ -431,7 +431,7 @@ fn main() {
         4,
         game_w + 8,
         9,
-        pixel::pxl_fg('█', Color::Grey),
+        pixel::pxl('█', Some(Color::Grey), None, None, None, None),
     ); // next piece's border
     engine.print_fbg(game_w + 4, 4, "Next", Color::Black, Color::Grey);
 
@@ -511,7 +511,7 @@ fn main() {
                 piece = next_piece;
                 next_piece = random_tetromino();
                 // refresh the next piece's border
-                engine.fill_rect(game_w + 4, 5, game_w + 7, 8, pixel::pxl(' '));
+                engine.fill_rect(game_w + 4, 5, game_w + 7, 8, pixel::pxl_plain(' '));
                 // check if the starting position is not empty
                 if !piece_fits(&game_scr, &piece, &piece_r, piece_x, piece_y) {
                     // game over, we draw the game one last time
@@ -526,7 +526,7 @@ fn main() {
                         score,
                     );
 
-                    engine.rect(game_w + 3, 11, game_w + 13, 13, pixel::pxl('█'));
+                    engine.rect(game_w + 3, 11, game_w + 13, 13, pixel::pxl_plain('█'));
                     engine.print_fbg(game_w + 4, 12, "GAME OVER", Color::Black, Color::Grey);
 
                     // wait 20 frames (=2 seconds) while still drawing the game

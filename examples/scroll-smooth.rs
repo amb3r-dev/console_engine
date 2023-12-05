@@ -8,14 +8,14 @@ fn main() {
     // coordinates will range from [0,0] to [29,19]
     let mut engine = console_engine::ConsoleEngine::init(30, 20, 10).unwrap();
     // draw the background
-    engine.fill(pixel::pxl_bg(' ', Color::Cyan));
+    engine.fill(pixel::pxl(' ', None, Some(Color::Cyan), None, None, None));
     // draw the window background
     engine.fill_rect(
         5,
         5,
         engine.get_width() as i32 - 5,
         engine.get_height() as i32 - 5,
-        pixel::pxl_bg(' ', Color::White),
+        pixel::pxl(' ', None, Some(Color::White), None, None, None),
     );
     // draw the window borders
     engine.rect(
@@ -23,7 +23,7 @@ fn main() {
         5,
         engine.get_width() as i32 - 5,
         engine.get_height() as i32 - 5,
-        pixel::pxl_bg(' ', Color::Blue),
+        pixel::pxl(' ', None, Some(Color::Blue), None, None, None),
     );
     // write something to the window
     engine.print_fbg(7, 7, "push arrows", Color::Black, Color::White);
@@ -69,7 +69,7 @@ fn main() {
             x = 0;
         }
 
-        engine.scroll(x, y, pixel::pxl_bg(' ', Color::Cyan)); // continually update x and y
+        engine.scroll(x, y, pixel::pxl(' ', None, Some(Color::Cyan), None, None, None)); // continually update x and y
         engine.draw(); // draw the screen
     }
 }

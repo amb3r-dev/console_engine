@@ -41,13 +41,17 @@ fn main() {
             pos_1.1 as i32,
             pos_2.0 as i32,
             pos_2.1 as i32,
-            pixel::pxl_fg(
+            pixel::pxl(
                 '#',
-                Color::Rgb {
+                Some(Color::Rgb {
                     r: pxl_c.0,
                     g: pxl_c.1,
                     b: pxl_c.2,
-                },
+                }),
+                None,
+                None,
+                None,
+                None,
             ),
         );
 

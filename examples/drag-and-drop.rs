@@ -62,7 +62,7 @@ fn main() {
             rect_y,
             rect_x + rect_w,
             rect_y + rect_h,
-            pixel::pxl('#'),
+            pixel::pxl_plain('#'),
         );
         engine.print(rect_x + 4, rect_y + 2, "Drag me!");
 

@@ -5,12 +5,12 @@ use console_engine::Color;
 fn main() {
     // create a screen of 21x12 characters
     let mut screen = Screen::new(21, 12);
-    screen.rect(0, 0, 20, 11, pixel::pxl('#'));
+    screen.rect(0, 0, 20, 11, pixel::pxl_plain('#'));
     screen.print(5, 1, "main screen");
 
     // create a new Screen struct and draw a square inside it
     let mut my_square = Screen::new(8, 8);
-    my_square.rect(0, 0, 7, 7, pixel::pxl_fg('#', Color::Blue));
+    my_square.rect(0, 0, 7, 7, pixel::pxl('#', Some(Color::Blue), None, None, None, None));
     my_square.print(1, 1, "square");
 
     // prints the square in the main window at a specific location

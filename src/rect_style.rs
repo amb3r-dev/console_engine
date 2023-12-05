@@ -17,60 +17,60 @@ impl BorderStyle {
     /// Simple border (uses only ascii characters +, -, |)
     pub fn new_simple() -> Self {
         Self {
-            corner_top_right: pixel::pxl('+'),
-            corner_top_left: pixel::pxl('+'),
-            corner_bottom_left: pixel::pxl('+'),
-            corner_bottom_right: pixel::pxl('+'),
-            top_bottom: pixel::pxl('-'),
-            left_right: pixel::pxl('|'),
+            corner_top_right: pixel::pxl_plain('+'),
+            corner_top_left: pixel::pxl_plain('+'),
+            corner_bottom_left: pixel::pxl_plain('+'),
+            corner_bottom_right: pixel::pxl_plain('+'),
+            top_bottom: pixel::pxl_plain('-'),
+            left_right: pixel::pxl_plain('|'),
         }
     }
 
     /// Solid (Uses only the block character from ascii)
     pub fn new_solid() -> Self {
         Self {
-            corner_top_right: pixel::pxl('█'),
-            corner_top_left: pixel::pxl('█'),
-            corner_bottom_left: pixel::pxl('█'),
-            corner_bottom_right: pixel::pxl('█'),
-            top_bottom: pixel::pxl('█'),
-            left_right: pixel::pxl('█'),
+            corner_top_right: pixel::pxl_plain('█'),
+            corner_top_left: pixel::pxl_plain('█'),
+            corner_bottom_left: pixel::pxl_plain('█'),
+            corner_bottom_right: pixel::pxl_plain('█'),
+            top_bottom: pixel::pxl_plain('█'),
+            left_right: pixel::pxl_plain('█'),
         }
     }
 
     /// Light border (uses Box Drawings Light set from unicode)
     pub fn new_light() -> Self {
         Self {
-            corner_top_right: pixel::pxl('┐'),
-            corner_top_left: pixel::pxl('┌'),
-            corner_bottom_left: pixel::pxl('└'),
-            corner_bottom_right: pixel::pxl('┘'),
-            top_bottom: pixel::pxl('─'),
-            left_right: pixel::pxl('│'),
+            corner_top_right: pixel::pxl_plain('┐'),
+            corner_top_left: pixel::pxl_plain('┌'),
+            corner_bottom_left: pixel::pxl_plain('└'),
+            corner_bottom_right: pixel::pxl_plain('┘'),
+            top_bottom: pixel::pxl_plain('─'),
+            left_right: pixel::pxl_plain('│'),
         }
     }
 
     /// Heavy border (uses Box Drawings Heavy set from unicode)
     pub fn new_heavy() -> Self {
         Self {
-            corner_top_right: pixel::pxl('┓'),
-            corner_top_left: pixel::pxl('┏'),
-            corner_bottom_left: pixel::pxl('┗'),
-            corner_bottom_right: pixel::pxl('┛'),
-            top_bottom: pixel::pxl('━'),
-            left_right: pixel::pxl('┃'),
+            corner_top_right: pixel::pxl_plain('┓'),
+            corner_top_left: pixel::pxl_plain('┏'),
+            corner_bottom_left: pixel::pxl_plain('┗'),
+            corner_bottom_right: pixel::pxl_plain('┛'),
+            top_bottom: pixel::pxl_plain('━'),
+            left_right: pixel::pxl_plain('┃'),
         }
     }
 
     /// Double border (uses Box Drawings Double set from unicode)
     pub fn new_double() -> Self {
         Self {
-            corner_top_right: pixel::pxl('╗'),
-            corner_top_left: pixel::pxl('╔'),
-            corner_bottom_left: pixel::pxl('╚'),
-            corner_bottom_right: pixel::pxl('╝'),
-            top_bottom: pixel::pxl('═'),
-            left_right: pixel::pxl('║'),
+            corner_top_right: pixel::pxl_plain('╗'),
+            corner_top_left: pixel::pxl_plain('╔'),
+            corner_bottom_left: pixel::pxl_plain('╚'),
+            corner_bottom_right: pixel::pxl_plain('╝'),
+            top_bottom: pixel::pxl_plain('═'),
+            left_right: pixel::pxl_plain('║'),
         }
     }
 

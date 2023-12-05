@@ -1,87 +1,102 @@
 //! Character and color management
 
 use crossterm::style::Color;
+use std::default;
+
+/// # Style
+/// contains boolean data for whether pixels should be bold, italic and underlined
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+pub struct Style {
+    pub bold: bool,
+    pub italic: bool,
+    pub underlined: bool,
+}
+impl default::Default for Style {
+    fn default() -> Self {
+        Style {
+            bold: false,
+            italic: false,
+            underlined: false,
+        }
+    }
+}
+impl std::fmt::Display for Style {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        if self.bold {
+            write!(f, "bold")?;
+        }
+        if self.italic {
+            write!(f, "italic")?;
+        }
+        if self.underlined {
+            write!(f, "underlined")?;
+        }
+        Ok(())
+    }
+}
 
 /// # Pixel structure
 /// contains color data and character data
 #[derive(Clone, Eq, PartialEq, Copy)]
 pub struct Pixel {
-    /// Background color of the Pixel
-    pub bg: Color,
     /// Foreground color of the Pixel
     pub fg: Color,
+    /// Background color of the Pixel
+    pub bg: Color,
     /// Character of the Pixel
     pub chr: char,
+    /// Whether the Pixel is bold, italic or underlined
+    pub style: Style,
 }
 impl Pixel {
     /// returns a tuple containing the background and foreground colors of a Pixel
     pub fn get_colors(&self) -> (Color, Color) {
         (self.fg, self.bg)
     }
-}
-
-/// Generate a pixel using a character, a foreground and background color
-///
-/// usage:
-/// ```
-/// use console_engine::pixel;
-/// use console_engine::Color;
-/// // ...
-/// engine.set_pxl(0,0,pixel::pxl_fbg('X', Color::Blue, Color::White));
-/// ```
-pub fn pxl_fbg(value: char, fg: Color, bg: Color) -> Pixel {
-    Pixel { bg, fg, chr: value }
-}
-
-/// Generate a pixel using a character and a foreground color.  
-/// Background color is always black.
-///
-/// usage:
-/// ```
-/// use console_engine::pixel;
-/// use console_engine::Color;
-/// // ...
-/// engine.set_pxl(0,0,pixel::pxl_fg('X', Color::Cyan));
-/// ```
-pub fn pxl_fg(value: char, fg: Color) -> Pixel {
-    Pixel {
-        fg,
-        bg: Color::Reset,
-        chr: value,
+    pub fn get_style(&self) -> Style {
+        self.style
     }
 }
-/// Generate a pixel using a character and a background color.  
-/// Foreground color is always White.
-///
-/// usage:
-/// ```
-/// use console_engine::pixel;
-/// use console_engine::Color;
-/// // ...
-/// engine.set_pxl(0,0,pixel::pxl_bg('X', Color::Magenta));
-/// ```
-pub fn pxl_bg(value: char, bg: Color) -> Pixel {
-    Pixel {
-        fg: Color::Reset,
-        bg,
-        chr: value,
+impl default::Default for Pixel {
+    fn default() -> Self {
+        Pixel {
+            fg: Color::Reset,
+            bg: Color::Reset,
+            chr: ' ',
+            style: Style::default(),
+        }
     }
 }
 
-/// Generate a pixel using a character  
-/// Foreground color is always White.  
-/// Background color is always black.
+/// Generate a pixel using a character, and optionally forground and background colors.
 ///
 /// usage:
 /// ```
 /// use console_engine::pixel;
 /// // ...
-/// engine.set_pxl(0,0,pixel::pxl('X'));
+/// engine.set_pxl(0,0,pixel::pxl('X', None, None, None, None, None));
 /// ```
-pub fn pxl(value: char) -> Pixel {
+pub fn pxl(chr: char, 
+           fg: Option<Color>, bg: Option<Color>, 
+           bold: Option<bool>, italic: Option<bool>, underlined: Option<bool>
+          ) -> Pixel {
+    Pixel {
+        fg: fg.unwrap_or(Color::Reset),
+        bg: bg.unwrap_or(Color::Reset),
+        chr,
+        style: Style {
+            bold: bold.unwrap_or(false),
+            italic: italic.unwrap_or(false),
+            underlined: underlined.unwrap_or(false),
+        },
+    }
+}
+
+pub fn pxl_plain(char: char) -> Pixel {
     Pixel {
         fg: Color::Reset,
         bg: Color::Reset,
-        chr: value,
+        chr: char,
+        style: Style::default(),
     }
 }

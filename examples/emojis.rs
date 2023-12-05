@@ -7,8 +7,8 @@ fn main() {
         engine.clear_screen();
 
         // draw a rectangle with an emoji inside
-        engine.rect(0, 0, 5, 4, pixel::pxl('#'));
-        engine.set_pxl(2, 2, pixel::pxl('👍'));
+        engine.rect(0, 0, 5, 4, pixel::pxl_plain('#'));
+        engine.set_pxl(2, 2, pixel::pxl_plain('👍'));
 
         if engine.is_key_pressed(KeyCode::Char('q')) {
             break;
