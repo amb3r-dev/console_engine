@@ -17,19 +17,24 @@ pub mod events;
 #[cfg(feature = "form")]
 pub mod forms;
 
+use std::io::Error as ErrorKind;
 pub use crossterm::event::{KeyCode, KeyEventKind, KeyModifiers, MouseButton};
 pub use crossterm::style::Color;
 use crossterm::terminal::{self, ClearType};
-use crossterm::{
-    event::{self, Event, KeyEvent, MouseEvent, MouseEventKind},
-    ErrorKind,
-};
+use crossterm::event::{self, Event, KeyEvent, MouseEvent, MouseEventKind};
 use crossterm::{execute, queue, style};
 use pixel::Pixel;
 use rect_style::BorderStyle;
 use screen::Screen;
 use std::io::Write;
 use std::io::{stdout, Stdout};
+
+pub enum ScrollDirection {
+    UP,
+    LEFT,
+    DOWN,
+    RIGHT,
+}
 
 /// Console Engine Framework
 ///
@@ -1043,52 +1048,42 @@ impl ConsoleEngine {
         None
     }
 
-    /// checks whenever the mouse's scroll has been turned down, towards the user
+    /// checks whenever the mouse has been scrolled
     ///
     /// usage:
     /// ```
-    /// if engine.is_mouse_scrolled_down() {
+    /// // Do something when any scroll event occurs
+    /// if engine.is_mouse_scrolled() {
     ///     // do some scrolling logic
     /// }
-    /// ```
-    pub fn is_mouse_scrolled_down(&self) -> bool {
-        self.is_mouse_scrolled_down_with_modifier(KeyModifiers::NONE)
-    }
-
-    /// checks whenever the mouse's scroll has been turned down, towards the user with a modifier (ctrl, shift, ...)
-    pub fn is_mouse_scrolled_down_with_modifier(&self, modifier: KeyModifiers) -> bool {
-        for evt in self.mouse_events.iter() {
-            if let MouseEventKind::ScrollDown = evt.kind {
-                if evt.modifiers == modifier {
-                    return true;
-                }
-            };
-        }
-        false
-    }
-
-    /// checks whenever the mouse's scroll has been turned up, away from the user
     ///
-    /// usage:
-    /// ```
-    /// if engine.is_mouse_scrolled_up() {
-    ///     // do some scrolling logic
+    /// // Do something when Ctrl + Shift + Scroll Up occurs
+    /// if let Some((direction, modifiers)) = engine.is_mouse_scrolled() {
+    ///     if direction == ScrollDirection::UP && modifiers == KeyModifiers::CTRL + KeyModifiers::SHIFT{
+    ///         // do some scrolling logic
+    ///     }
     /// }
+    ///
     /// ```
-    pub fn is_mouse_scrolled_up(&self) -> bool {
-        self.is_mouse_scrolled_up_with_modifier(KeyModifiers::NONE)
-    }
-
-    /// checks whenever the mouse's scroll has been turned up, away from the user with a modifier (ctrl, shift, ...)
-    pub fn is_mouse_scrolled_up_with_modifier(&self, modifier: KeyModifiers) -> bool {
+    pub fn is_mouse_scrolled(&self) -> Option<(ScrollDirection, KeyModifiers)> {
         for evt in self.mouse_events.iter() {
-            if let MouseEventKind::ScrollUp = evt.kind {
-                if evt.modifiers == modifier {
-                    return true;
+            match evt.kind {
+                MouseEventKind::ScrollUp => {
+                    return Some((ScrollDirection::UP, evt.modifiers));
                 }
-            };
+                MouseEventKind::ScrollDown => {
+                    return Some((ScrollDirection::DOWN, evt.modifiers));
+                }
+                MouseEventKind::ScrollLeft => {
+                    return Some((ScrollDirection::LEFT, evt.modifiers));
+                }
+                MouseEventKind::ScrollRight => {
+                    return Some((ScrollDirection::RIGHT, evt.modifiers));
+                }
+                _ => continue,
+            }
         }
-        false
+        return None
     }
 }
 
