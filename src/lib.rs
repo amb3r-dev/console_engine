@@ -1071,25 +1071,34 @@ impl ConsoleEngine {
     /// }
     ///
     /// ```
-    pub fn is_mouse_scrolled(&self) -> Option<(ScrollDirection, KeyModifiers)> {
+    pub fn is_mouse_scrolled(&self) -> Option<(Vec<ScrollDirection>, KeyModifiers, (u16, u16))> {
+        let mut directions = Vec::new();
+        let mut modifiers = KeyModifiers::NONE;
+        let mut mouse_pos: (u16,u16) = (0,0);
         for evt in self.mouse_events.iter() {
+            modifiers = modifiers.union(evt.modifiers);
+            mouse_pos = (evt.column, evt.row);
             match evt.kind {
                 MouseEventKind::ScrollUp => {
-                    return Some((ScrollDirection::UP, evt.modifiers));
+                    directions.push(ScrollDirection::UP);
                 }
                 MouseEventKind::ScrollDown => {
-                    return Some((ScrollDirection::DOWN, evt.modifiers));
+                    directions.push(ScrollDirection::DOWN);
                 }
                 MouseEventKind::ScrollLeft => {
-                    return Some((ScrollDirection::LEFT, evt.modifiers));
+                    directions.push(ScrollDirection::LEFT);
                 }
                 MouseEventKind::ScrollRight => {
-                    return Some((ScrollDirection::RIGHT, evt.modifiers));
+                    directions.push(ScrollDirection::RIGHT);
                 }
-                _ => continue,
+                _ => {},
             }
         }
-        return None
+        if directions.is_empty() {
+            return None;
+        } else {
+            return (directions, modifiers, mouse_pos).into();
+        }
     }
 }
 
