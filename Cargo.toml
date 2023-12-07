@@ -1,14 +1,14 @@
 [package]
-authors = ["Vincent Foulon <sup.vfoulon@gmail.com>"]
+authors = ["Vincent Foulon <sup.vfoulon@gmail.com>", "Amber Connelly"]
 categories = ["command-line-interface"]
-description = "A simple terminal framework to draw things and manage user input"
+description = "A simple terminal framework to draw things and manage user input (demiforge fork)"
 edition = "2021"
 include = ["src/**/*", "LICENSE", "README.md"]
 keywords = ["terminal", "tui", "input"]
 license = "MIT"
 name = "console_engine"
 readme = "README.md"
-repository = "https://github.com/VincentFoulon80/console_engine"
+repository = "https://github.com/amb3r-dev/console_engine"
 version = "2.6.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
