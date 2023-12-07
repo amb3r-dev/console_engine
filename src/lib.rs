@@ -636,6 +636,12 @@ impl ConsoleEngine {
                             if pixel.style.underlined {
                                 queue!(self.stdout, style::SetAttribute(style::Attribute::Underlined)).unwrap();
                             }
+                            // Also reset the foreground and background colors
+                            queue!(
+                                self.stdout,
+                                style::SetForegroundColor(pixel.fg),
+                                style::SetBackgroundColor(pixel.bg),
+                            ).unwrap();
                         }
                     }
                     if current_italic != pixel.style.italic || first {
