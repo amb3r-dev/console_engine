@@ -1,6 +1,5 @@
 use console_engine::pixel;
 use console_engine::{KeyCode, MouseButton};
-use crossterm::style::Color;
 
 fn main() {
     // initializes a screen filling the terminal with a target of 30 frames per second
@@ -8,8 +7,8 @@ fn main() {
 
     let mut rect_x = 8;
     let mut rect_y = 3;
-    let mut rect_w = 16;
-    let mut rect_h = 4;
+    let rect_w = 16;
+    let rect_h = 4;
     let mut dragging = false;
     let mut relative_x = 0;
     let mut relative_y = 0;
@@ -55,38 +54,6 @@ fn main() {
         if mouse_pos.is_some() {
             // disable dragging mode
             dragging = false;
-        }
-
-        // check if scrolling
-        if let Some((directions, modifiers, _position)) = engine.is_mouse_scrolled() {
-            if modifiers.contains(crossterm::event::KeyModifiers::CONTROL){
-                for direction in directions {
-                    match direction {
-                        console_engine::ScrollDirection::UP => rect_h -= 1,
-                        console_engine::ScrollDirection::DOWN => rect_h += 1,
-                        console_engine::ScrollDirection::LEFT => rect_w -= 1,
-                        console_engine::ScrollDirection::RIGHT => rect_w += 1,
-                    }
-                }
-            } else if modifiers.contains(crossterm::event::KeyModifiers::SHIFT){
-                for direction in directions {
-                    match direction {
-                        console_engine::ScrollDirection::UP => rect_h -= 5,
-                        console_engine::ScrollDirection::DOWN => rect_h += 5,
-                        console_engine::ScrollDirection::LEFT => rect_w -= 5,
-                        console_engine::ScrollDirection::RIGHT => rect_w += 5,
-                    }
-                }
-            } else {
-                for direction in directions {
-                    match direction {
-                        console_engine::ScrollDirection::UP => rect_y -= 1,
-                        console_engine::ScrollDirection::DOWN => rect_y += 1,
-                        console_engine::ScrollDirection::LEFT => rect_x -= 1,
-                        console_engine::ScrollDirection::RIGHT => rect_x += 1,
-                    }
-                }
-            }
         }
 
         // print the recrangle
