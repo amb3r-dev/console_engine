@@ -145,12 +145,12 @@ fn main() {
         // display the configured coordinates and highlight the current one
         if engine.frame_count % 4 >= 2 {
             for coord in coords.iter() {
-                engine.set_pxl(coord.0, coord.1, pixel::pxl('#', Some(Color::Cyan), None, None, None, None));
+                engine.set_pxl(coord.0, coord.1, pixel::pxl('#', Some(Color::Cyan), None, None));
             }
             engine.set_pxl(
                 coords[selection].0,
                 coords[selection].1,
-                pixel::pxl('#', Some(Color::Yellow), None, None, None, None),
+                pixel::pxl('#', Some(Color::Yellow), None, None),
             );
         }
 

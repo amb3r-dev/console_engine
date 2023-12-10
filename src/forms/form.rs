@@ -297,8 +297,6 @@ impl FormField for Form {
             Some( self.options.style.fg ),
             Some( self.options.style.bg ),
             None,
-            None,
-            None
         ));
         let padding = self.options.style.border.is_some() as i32;
 
@@ -336,7 +334,7 @@ impl FormField for Form {
             self.scroll_index as i32,
             self.get_width() as i32 - 1,
             self.scroll_index as i32 + self.get_height() as i32 - 1,
-            pixel::pxl(' ', None, None, None, None, None),
+            pixel::pxl(' ', None, None, None),
         );
         if let Some(border) = self.options.style.border {
             // Display the border
@@ -362,23 +360,23 @@ impl FormField for Form {
                     self.get_width() as i32 - 1,
                     1,
                     self.get_height() as i32 - 2,
-                    pixel::pxl('|', Some( self.options.style.fg ), Some( self.options.style.bg ), None, None, None),
+                    pixel::pxl('|', Some( self.options.style.fg ), Some( self.options.style.bg ), None),
                 );
                 self.viewport.set_pxl(
                     self.get_width() as i32 - 1,
                     1,
-                    pixel::pxl('↑', Some( self.options.style.fg ), Some( self.options.style.bg ), None, None, None),
+                    pixel::pxl('↑', Some( self.options.style.fg ), Some( self.options.style.bg ), None),
                 );
                 self.viewport.set_pxl(
                     self.get_width() as i32 - 1,
                     self.get_height() as i32 - 2,
-                    pixel::pxl('↓', Some( self.options.style.fg ), Some( self.options.style.bg ), None, None, None),
+                    pixel::pxl('↓', Some( self.options.style.fg ), Some( self.options.style.bg ), None),
                 );
                 self.viewport.set_pxl(
                     self.get_width() as i32 - 1,
                     2 + ((self.scroll_index as f32 / max_scroll as f32)
                         * (self.get_height() as f32 - 5f32)) as i32,
-                    pixel::pxl('█', Some( self.options.style.fg ), Some( self.options.style.bg ), None, None, None),
+                    pixel::pxl('█', Some( self.options.style.fg ), Some( self.options.style.bg ), None),
                 );
             }
         }

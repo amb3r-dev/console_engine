@@ -10,7 +10,7 @@ fn main() {
 
     // create a new Screen struct and draw a square inside it
     let mut my_square = Screen::new(8, 8);
-    my_square.rect(0, 0, 7, 7, pixel::pxl('#', Some(Color::Blue), None, None, None, None));
+    my_square.rect(0, 0, 7, 7, pixel::pxl('#', Some(Color::Blue), None, None));
     my_square.print(1, 1, "square");
 
     // prints the square in the main window at a specific location

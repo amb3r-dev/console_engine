@@ -10,6 +10,7 @@ pub struct Style {
     pub bold: bool,
     pub italic: bool,
     pub underlined: bool,
+    pub strikethrough: bool,
 }
 impl default::Default for Style {
     fn default() -> Self {
@@ -17,21 +18,8 @@ impl default::Default for Style {
             bold: false,
             italic: false,
             underlined: false,
+            strikethrough: false,
         }
-    }
-}
-impl std::fmt::Display for Style {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        if self.bold {
-            write!(f, "bold")?;
-        }
-        if self.italic {
-            write!(f, "italic")?;
-        }
-        if self.underlined {
-            write!(f, "underlined")?;
-        }
-        Ok(())
     }
 }
 
@@ -76,19 +64,12 @@ impl default::Default for Pixel {
 /// // ...
 /// engine.set_pxl(0,0,pixel::pxl('X', None, None, None, None, None));
 /// ```
-pub fn pxl(chr: char, 
-           fg: Option<Color>, bg: Option<Color>, 
-           bold: Option<bool>, italic: Option<bool>, underlined: Option<bool>
-          ) -> Pixel {
+pub fn pxl(chr: char, fg: Option<Color>, bg: Option<Color>, style: Option<Style>) -> Pixel {
     Pixel {
         fg: fg.unwrap_or(Color::Reset),
         bg: bg.unwrap_or(Color::Reset),
         chr,
-        style: Style {
-            bold: bold.unwrap_or(false),
-            italic: italic.unwrap_or(false),
-            underlined: underlined.unwrap_or(false),
-        },
+        style: style.unwrap_or(Style::default()),
     }
 }
 

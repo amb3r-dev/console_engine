@@ -586,6 +586,7 @@ impl ConsoleEngine {
         let mut current_bold: bool = false;
         let mut current_italic: bool = false;
         let mut current_underline: bool = false;
+        let mut current_strikethrough: bool = false;
         let mut moving = false;
         self.screen_last_frame.check_empty(); // refresh internal "empty" value of the last_frame screen
         let mut skip_next = false;
@@ -629,12 +630,15 @@ impl ConsoleEngine {
                             // Use style::Attribute::Reset instead, process italics and underline
                             // afterwards to avoid resetting those attributes.
                             queue!(self.stdout, style::SetAttribute(style::Attribute::Reset)).unwrap();
-                            // Make sure to re-enable italics and underline after they're reset
+                            // Make sure to re-enable italics, underline, and strikethrough after they're reset
                             if pixel.style.italic {
                                 queue!(self.stdout, style::SetAttribute(style::Attribute::Italic)).unwrap();
                             }
                             if pixel.style.underlined {
                                 queue!(self.stdout, style::SetAttribute(style::Attribute::Underlined)).unwrap();
+                            }
+                            if pixel.style.strikethrough {
+                                queue!(self.stdout, style::SetAttribute(style::Attribute::CrossedOut)).unwrap();
                             }
                             // Also reset the foreground and background colors
                             queue!(
@@ -658,6 +662,14 @@ impl ConsoleEngine {
                             queue!(self.stdout, style::SetAttribute(style::Attribute::Underlined)).unwrap(); 
                         } else {
                             queue!(self.stdout, style::SetAttribute(style::Attribute::NoUnderline)).unwrap();
+                        }
+                    }
+                    if current_strikethrough != pixel.style.strikethrough || first {
+                        current_strikethrough = pixel.style.strikethrough;
+                        if pixel.style.strikethrough {
+                            queue!(self.stdout, style::SetAttribute(style::Attribute::CrossedOut)).unwrap();
+                        } else {
+                            queue!(self.stdout, style::SetAttribute(style::Attribute::NotCrossedOut)).unwrap();
                         }
                     }
                     if current_colors != pixel.get_colors() || first {

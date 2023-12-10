@@ -21,8 +21,8 @@ fn main() {
 
     // initializes screen_shapes
     screen_shapes.rect(0, 0, 29, 9, pixel::pxl_plain('+'));
-    screen_shapes.fill_circle(4, 4, 2, pixel::pxl('0', Some(Color::Blue), None, None, None, None));
-    screen_shapes.fill_triangle(27, 2, 27, 7, 17, 7, pixel::pxl('#', Some(Color::Green), None, None, None, None));
+    screen_shapes.fill_circle(4, 4, 2, pixel::pxl('0', Some(Color::Blue), None, None));
+    screen_shapes.fill_triangle(27, 2, 27, 7, 17, 7, pixel::pxl('#', Some(Color::Green), None, None));
 
     // initializes screen_empty
     screen_empty.print_fbg(11, 9, "It's empty, right ?", Color::DarkGrey, Color::Black);

@@ -416,14 +416,14 @@ fn main() {
         0,
         game_w + 1,
         game_scr.get_height() as i32,
-        pixel::pxl('█', Some(Color::Grey), None, None, None, None),
+        pixel::pxl('█', Some(Color::Grey), None, None),
     ); // walls
     engine.rect(
         game_w + 1,
         0,
         engine.get_width() as i32 - 1,
         2,
-        pixel::pxl('█', Some(Color::Grey), None, None, None, None),
+        pixel::pxl('█', Some(Color::Grey), None, None),
     ); // score's border
     engine.print_fbg(game_w + 3, 0, "Score:", Color::Black, Color::Grey);
     engine.rect(
@@ -431,7 +431,7 @@ fn main() {
         4,
         game_w + 8,
         9,
-        pixel::pxl('█', Some(Color::Grey), None, None, None, None),
+        pixel::pxl('█', Some(Color::Grey), None, None),
     ); // next piece's border
     engine.print_fbg(game_w + 4, 4, "Next", Color::Black, Color::Grey);
 

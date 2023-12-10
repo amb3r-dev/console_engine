@@ -183,8 +183,6 @@ impl FormField for Text {
                 Some( self.options.style.fg ),
                 Some( self.options.style.bg ),
                 None,
-                None,
-                None,
             ));
             self.screen.print_fbg(
                 if self.cursor_pos >= self.screen.get_width() as usize {
@@ -391,8 +389,6 @@ impl FormField for HiddenText {
                 Some( self.options.style.fg ),
                 Some( self.options.style.bg ),
                 None,
-                None,
-                None,
             ));
             if !self.input_buffer.is_empty() {
                 self.screen.h_line(
@@ -407,8 +403,6 @@ impl FormField for HiddenText {
                         self.hide_character,
                         Some( self.options.style.fg ),
                         Some( self.options.style.bg ),
-                        None,
-                        None,
                         None,
                     ),
                 );

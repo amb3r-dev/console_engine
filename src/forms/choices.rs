@@ -151,8 +151,6 @@ impl FormField for Radio {
                 Some(self.options.style.fg),
                 Some(self.options.style.bg),
                 None,
-                None,
-                None,
             ));
             for (id, entry) in self.list.iter().enumerate() {
                 let (fg, bg) = if self.active && self.cursor_pos == id {
@@ -329,8 +327,6 @@ impl FormField for Checkbox {
                 Some(self.options.style.fg),
                 Some(self.options.style.bg),
                 None, 
-                None, 
-                None,
             ));
             self.dirty = false;
             for (id, entry) in self.list.iter().enumerate() {

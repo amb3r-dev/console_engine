@@ -85,7 +85,7 @@ impl Screen {
         assert!(string.chars().count() == (width*height) as usize, "The String must have the length corresponding to width*height (={}) but the given String has a length of {}.", width*height, string.chars().count());
         let vec: Vec<Pixel> = string
             .chars()
-            .map(|chr| pixel::pxl(chr, Some(fg), Some(bg), None, None, None))
+            .map(|chr| pixel::pxl(chr, Some(fg), Some(bg), None))
             .collect();
         Screen::from_vec(vec, width, height)
     }
@@ -204,7 +204,7 @@ impl Screen {
                     // write on the screen until the row changes,
                     // skip the rest until a \n character is found
                     if origin_row == pos / self.get_width() as usize {
-                        self.screen[pos] = pixel::pxl(chr, Some(fg), Some(bg), None, None, None);
+                        self.screen[pos] = pixel::pxl(chr, Some(fg), Some(bg), None);
                         pos += 1;
                     }
                 } else {
