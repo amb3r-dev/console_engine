@@ -34,10 +34,10 @@ fn main() {
             } else if modifiers.contains(crossterm::event::KeyModifiers::SHIFT){
                 for direction in directions {
                     match direction {
-                        console_engine::ScrollDirection::UP => rect_h -= 3,
-                        console_engine::ScrollDirection::DOWN => rect_h += 3,
-                        console_engine::ScrollDirection::LEFT => rect_w -= 3,
-                        console_engine::ScrollDirection::RIGHT => rect_w += 3,
+                        console_engine::ScrollDirection::UP => rect_y -= 3,
+                        console_engine::ScrollDirection::DOWN => rect_y += 3,
+                        console_engine::ScrollDirection::LEFT => rect_x -= 3,
+                        console_engine::ScrollDirection::RIGHT => rect_x += 3,
                     }
                 }
             } else {
