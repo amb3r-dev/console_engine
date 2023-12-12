@@ -78,12 +78,12 @@ impl BorderStyle {
     /// 
     pub fn new_titlebar() -> Self {
         Self {
-            corner_top_right: pixel::pxl_plain('┓'),
-            corner_top_left: pixel::pxl_plain('┏'),
-            corner_bottom_left: pixel::pxl_plain('┡'),
-            corner_bottom_right: pixel::pxl_plain('┩'),
-            top_bottom: pixel::pxl_plain('━'),
-            left_right: pixel::pxl_plain('┃'),
+            corner_top_right: pixel::pxl_plain('╗'),
+            corner_top_left: pixel::pxl_plain('╔'),
+            corner_bottom_left: pixel::pxl_plain('╠'),
+            corner_bottom_right: pixel::pxl_plain('╣'),
+            top_bottom: pixel::pxl_plain('═'),
+            left_right: pixel::pxl_plain('║'),
         }
     }
 

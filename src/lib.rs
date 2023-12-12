@@ -9,6 +9,7 @@ pub extern crate crossterm;
 pub mod pixel;
 pub mod rect_style;
 pub mod screen;
+pub mod window_manager;
 mod utils;
 
 #[cfg(feature = "event")]

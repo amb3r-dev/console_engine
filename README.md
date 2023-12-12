@@ -9,3 +9,4 @@ Documentation may be incomplete/inconsistent.
 The following features have been added:
 * Bold, italic, and underline.
 * Multidirectional mouse scrolling.
+* Rudimentary windows, able to be moved, closed, and resized.
