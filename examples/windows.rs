@@ -5,7 +5,6 @@ use console_engine::ConsoleEngine;
 fn main() {
     let mut wm = WindowManager::new();
     let mut engine = ConsoleEngine::init(30, 20, 60).unwrap();
-    wm.add_window("Test".into(), 5, 5, 30, 9);
 
     loop {
         engine.wait_frame();
@@ -17,8 +16,9 @@ fn main() {
             wm.add_window("Test".into(), mouse_pos.0 as i32, mouse_pos.1 as i32, 30, 9);
         }
         engine.clear_screen();
-        wm.render_windows(&mut engine);
+        engine.print(2, 2, "Right click to create windows!");
         wm.handle_input(&mut engine);
+        wm.render_windows(&mut engine);
         engine.draw();
     }
 }
