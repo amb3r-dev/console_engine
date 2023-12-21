@@ -122,6 +122,8 @@ impl WindowManager {
         let mut focus_order = self.focus_order.clone();
         for i in self.focus_order.iter().rev() {
             let w = &mut self.windows[*i];
+
+            // Left-mouse press
             if let Some(mouse_pos) = engine.get_mouse_press(crossterm::event::MouseButton::Left) {
                 let whole_window_area = w.get_whole_window_area();
                 // check if mouse_pos is inside whole_window_area
@@ -198,6 +200,8 @@ impl WindowManager {
                     break;
                 }
             }
+
+            // Left-mouse hold
             if let Some(mouse_pos) = engine.get_mouse_held(crossterm::event::MouseButton::Left) {
                 if w.moving {
                     w.x = w.orig_window_pos.0 + mouse_pos.0 as i32 - w.drag_starting_pos.0;
@@ -231,6 +235,8 @@ impl WindowManager {
                 let size = w.get_contents_size();
                 if w.resize_dir.is_some() { w.contents.resize(size.0 as u32, size.1 as u32) }
             }
+
+            // Left-mouse release
             if engine
                 .get_mouse_released(crossterm::event::MouseButton::Left)
                 .is_some()
