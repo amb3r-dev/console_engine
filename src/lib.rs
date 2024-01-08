@@ -841,7 +841,7 @@ impl ConsoleEngine {
     ///     // do your stuff
     /// }
     /// ```
-    pub fn check_resize(&mut self) {
+    pub fn check_resize(&mut self) -> bool {
         if crossterm::terminal::size().unwrap() != (self.width as u16, self.height as u16) {
             // resize terminal
             let size = crossterm::terminal::size().unwrap();
@@ -849,6 +849,9 @@ impl ConsoleEngine {
             let new_height = size.1 as u32;
 
             self.resize(new_width, new_height);
+            return true;
+        } else {
+            return false;
         }
     }
 
